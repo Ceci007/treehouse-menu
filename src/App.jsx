@@ -1,39 +1,32 @@
-import logo from "./assets/logo.png";
-import { MdOutlineDashboard } from "react-icons/md";
-import { IoMailOutline, IoCalendarClearOutline } from "react-icons/io5";
-import { LuTruck } from "react-icons/lu";
-import { TbReportSearch } from "react-icons/tb";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Layout from './pages/Layout';
+import Home from "./pages/Home";
+import Dashboard from "./pages/Dashboard";
+import Settings from "./pages/Settings";
 
-function App() {
+const App = () => {
   return (
-    <div className="sidebar">
-      <div className="logo">
-        <img src={logo} alt="treehouse logo" /> 
-      </div>
-      <ul>
-        <li className="li-active">
-          <MdOutlineDashboard size={26} color="#67b569" />
-          <p>Dashboard</p> 
-        </li>
-        <li>
-          <IoMailOutline size={26} color="#3b3b3b" /> 
-          <p>Products</p>
-        </li>
-        <li>
-          <IoCalendarClearOutline size={26} color="#3b3b3b" />
-          <p>Calendars</p>
-        </li>
-        <li>
-          <LuTruck size={26} color="#3b3b3b" />
-          <p>Suppliers</p>
-        </li>
-        <li>
-          <TbReportSearch size={26} color="#3b3b3b" />
-          <p>Reports</p>
-        </li>
-      </ul>
-    </div>
-  )
-}
+    <BrowserRouter>
+      <Routes>
+        {/*
+          1. The parent route uses the path '/' and renders the Layout component.
+          2. All nested routes inherit this path structure and render their content
+             inside the Layout's <Outlet />.
+        */}
+        <Route path="/" element={<Layout />}>
+          {/* Default/Index route: Renders Home when the path is exactly '/' */}
+          <Route index element={<Home />} />
 
-export default App
+          {/* Other nested routes: Renders Dashboard/Settings alongside the Sidebar */}
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="settings" element={<Settings />} />
+
+          {/* Optional: A catch-all route for 404 pages */}
+          <Route path="*" element={<h3>404: Page Not Found</h3>} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+export default App;
